@@ -54,6 +54,9 @@ def process_image(self, file_id: str, original_filename: str):
         resized_compressed_object_name = f"processed/{file_id}/{resized_compressed_name}"
         
         output_buffer = io.BytesIO()
+        # Ensure image is in RGB mode before saving as JPEG
+        if img_resized.mode not in ("RGB", "L"):
+            img_resized = img_resized.convert("RGB")
         img_resized.save(output_buffer, format="JPEG", quality=COMPRESSION_QUALITY)
         output_buffer.seek(0)
         
@@ -81,6 +84,9 @@ def process_image(self, file_id: str, original_filename: str):
         thumbnail_object_name = f"processed/{file_id}/{thumbnail_name}"
         
         output_buffer = io.BytesIO()
+        # Ensure thumbnail image is in RGB mode before saving as JPEG
+        if img_thumbnail.mode not in ("RGB", "L"):
+            img_thumbnail = img_thumbnail.convert("RGB")
         img_thumbnail.save(output_buffer, format="JPEG", quality=COMPRESSION_QUALITY)
         output_buffer.seek(0)
         
